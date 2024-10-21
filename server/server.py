@@ -22,8 +22,6 @@ INVENTORY_PATH = Path()
 def on_initialized(ls: LanguageServer, params: InitializedParams):
     global INVENTORY_PATH
     path = Path(unquote(urlparse(ls.workspace.root_uri).path))
-    # Hack to make local development of extension work
-    path = Path(*(part for part in path.parts if part != "kapitan-vscode-extension"))
     INVENTORY_PATH = path / "inventory"
 
 
