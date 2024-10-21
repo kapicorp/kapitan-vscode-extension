@@ -1,3 +1,6 @@
 [tool.pyright]
 include = ["server"]
 useLibraryCodeForTypes = true
+
+[tool.ruff]
+lint.extend-select = ["I"]

@@ -5,7 +5,7 @@ repos:
       - id: ruff-format
         name: ruff-format
         description: "Runs ruff format"
-        entry: ruff format --force-exclude
+        entry: .venv/bin/ruff format --force-exclude
         language: system
         require_serial: true
         types_or: [python, pyi]
@@ -15,8 +15,8 @@ repos:
       - id: ruff-lint
         name: ruff-lint
         description: "Runs ruff check"
-        entry: ruff check --fix --force-exclude
-        language: system
+        entry: .venv/bin/ruff check --fix --force-exclude
+        language: system 
         require_serial: true
         types_or: [python, pyi]
 
@@ -25,7 +25,7 @@ repos:
       - id: pyright
         name: pyright
         description: "Type checking via Pyright"
-        entry: python -m pyright
+        entry: .venv/bin/python -m pyright
         language: system
         "types_or": [python, pyi]
         require_serial: true
