@@ -1,0 +1,35 @@
+name: Build Extension
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+
+      - name: clean install dependencies
+        run: cd client && npm ci    
+      
+      - name: compile and create vsix
+        run: |
+          cd client
+          npm install
+          npm install -g vsce
+          npm run compile 
+          npm run webpack 
+          npm run vscepack
+
+      - name: upload vsix as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-package
+          path: client/*.vsix

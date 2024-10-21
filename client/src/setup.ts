@@ -7,7 +7,7 @@ import { execAsync } from './utils'
 async function checkPythonVersion(python: string): Promise<boolean> {
   try {
     const [major, minor] = await getPythonVersion(python)
-    return major === 3 && minor > 5 && minor < 11
+    return major === 3 && minor > 10
   } catch {
     return false
   }
@@ -39,14 +39,14 @@ export async function getPython(): Promise<string> {
       if (await checkPythonVersion(value)) {
         return null
       } else {
-        return 'Not a valid python path!'
+        return 'Not a valid python 3.11+ path!'
       }
     },
   })
 
   // User canceled the input
   if (python === 'undefined') {
-    throw new Error('Python 3.6+ is required!')
+    throw new Error('Python 3.11+ is required!')
   }
 
   if (IS_WIN) {
@@ -77,7 +77,12 @@ async function installRequirements(python: string, cwd: string) {
     if (IS_WIN && !python.startsWith('"')) {
       python = `"${python}"`
     }
-    await execAsync(`${python} -m pip install --upgrade --force-reinstall -r requirements.txt --log torque-extension-req-install.log`, { cwd })
+    try {
+      await execAsync(`${python} -m pip install --upgrade --force-reinstall -r requirements.txt --log extension-req-install.log`, { cwd });
+    } catch (error) {
+      console.error(`Error during install python requirements for extension:\n${error.message}\n Also check  extension-req-install.log`);
+      throw error;
+    }
   }
 }
 
@@ -88,14 +93,14 @@ export async function installLSWithProgress(context: ExtensionContext): Promise<
   {
     return Promise.resolve(venvPython)
   }
-  
+
   // Install with progress bar
   return window.withProgress({
     location: ProgressLocation.Notification,
   }, (progress): Promise<string> => {
     return new Promise<string>(async (resolve, reject) => {
       try {
-        progress.report({ message: 'First-time Torque extension initialization' })
+        progress.report({ message: 'First-time extension initialization' })
 
         // Get python interpreter
         const python = await getPython()
@@ -108,7 +113,7 @@ export async function installLSWithProgress(context: ExtensionContext): Promise<
         const requirementsPath = join(context.extensionPath, 'out', 'server')
         await installRequirements(venvPython, requirementsPath)
 
-        window.showInformationMessage('Torque extension is ready! 🎉')
+        window.showInformationMessage('Extension is ready! 🎉')
         resolve(venvPython)
       } catch (err) {
         reject(err)

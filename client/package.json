@@ -1,202 +1,60 @@
 {
-	"name": "torque-language-extension",
-	"displayName": "Torque",
-	"description": "A VS Code extension for the Torque YAML syntax. Provides YAML schema verification, auto-complete, highlight problems and much more.",
-	"author": "Quali",
-	"license": "MIT",
-	"version": "0.3.4",
-	"publisher": "Quali-Torque",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/QualiTorque/torque-vs-code-extensions"
-	},
-	"engines": {
-		"vscode": "^1.63.0"
-	},
-	"icon": "icon/icon_q_square.png",
-	"galleryBanner": {
-		"color": "#009bda",
-		"theme": "dark"
-	},
-	"keywords": [
-		"quali",
-		"torque",
-		"yaml",
-		"autocompletion",
-		"validation"
-	],
-	"categories": [
-		"Programming Languages",
-		"Linters"
-	],
-	"activationEvents": [
-		"onStartupFinished"
-	],
-	"contributes": {
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "torque-view-container",
-					"title": "Torque",
-					"icon": "icon/Quali_Q_white.svg"
-				}
-			]
-		},
-		"views": {
-			"torque-view-container": [
-				{
-					"id": "blueprintsExplorerView",
-					"name": "Blueprints Explorer",
-					"contextualTitle": "Blueprints Explorer"
-				},
-				{
-					"id": "environmentsExplorerView",
-					"name": "Environments Explorer",
-					"contextualTitle": "Environments Explorer"
-				},
-				{
-					"id": "profilesView",
-					"name": "Profiles"
-				}
-			]
-		},
-		"commands": [
-			{
-				"command": "environmentsExplorerView.refreshEntry",
-				"title": "Refresh",
-				"icon": "$(refresh)"
-			},
-			{
-				"command": "environmentsExplorerView.endEnvironment",
-				"title": "End Environment",
-				"icon": "$(close)"
-			},
-			{
-				"command": "blueprintsExplorerView.refreshEntry",
-				"title": "Refresh",
-				"icon": "$(refresh)"
-			},
-			{
-				"command": "profilesView.refreshEntry",
-				"title": "Refresh",
-				"icon": "$(refresh)"
-			},
-			{
-				"command": "profilesView.addProfile",
-				"title": "Add Profile",
-				"icon": "$(add)"
-			},
-			{
-				"command": "profilesView.setAsDefaultEntry",
-				"title": "Set as default",
-				"icon": "$(check)"
-			},
-			{
-				"command": "profilesView.removeEntry",
-				"title": "Delete profile",
-				"icon": "$(close)"
-			}
-		],
-		"menus": {
-			"view/title": [
-				{
-					"command": "blueprintsExplorerView.refreshEntry",
-					"group": "navigation",
-					"when": "view == blueprintsExplorerView"
-				},
-				{
-					"command": "environmentsExplorerView.refreshEntry",
-					"group": "navigation",
-					"when": "view == environmentsExplorerView"
-				},
-				{
-					"command": "profilesView.refreshEntry",
-					"group": "navigation",
-					"when": "view == profilesView"
-				},
-				{
-					"command": "profilesView.addProfile",
-					"group": "navigation",
-					"when": "view == profilesView"
-				}
-			],
-			"view/item/context": [
-				{
-					"command": "profilesView.setAsDefaultEntry",
-					"when": "view == profilesView && viewItem == space",
-					"group": "inline"
-				},
-				{
-					"command": "profilesView.removeEntry",
-					"when": "view == profilesView && viewItem == space",
-					"group": "inline"
-				},
-				{
-					"command": "environmentsExplorerView.endEnvironment",
-					"when": "view == environmentsExplorerView",
-					"group": "inline"
-				}
-			]
-		},
-		"configuration": {
-			"type": "object",
-			"title": "Torque Configuration",
-			"properties": {
-				"torque.activeProfile": {
-					"type": "string",
-					"description": "The currently selected profile to use. Can be set from the Torque profiles view when having at least one profile.",
-					"scope": "resource"
-				},
-				"torque.defaultSandboxDuration": {
-					"type": "number",
-					"description": "A default environment duration (in minutes) to use when displaying the start nvironment form.",
-					"default": 120,
-					"scope": "application"
-				}
-			}
-		},
-		"languages": [
-			{
-				"id": "yaml",
-				"aliases": [
-					"YAML",
-					"yaml"
-				],
-				"extensions": [
-					".yaml"
-				]
-			}
-		],
-		"configurationDefaults": {
-			"[yaml]": {
-				"editor.semanticHighlighting.enabled": true
-			}
-		}
-	},
-	"extensionDependencies": [
-		"redhat.vscode-yaml"
-	],
-	"main": "./out/extension",
-	"scripts": {
-		"vscode:prepublish": "npm run compile && echo copying server && cp -Rf ../server/. out/server && cp ../*.md ./ && cp ../LICENSE ./LICENSE",
-		"compile": "tsc -b",
-		"watch": "tsc -b -w",
-		"webpack": "webpack --mode development",
-		"vscepack": "vsce package",
-		"postinstall": "echo post-install"
-	},
-	"dependencies": {
-		"vscode-languageclient": "^7.0.0"
-	},
-	"devDependencies": {
-		"@types/node": "^16.11.7",
-		"@types/uuid": "^3.4.6",
-		"@types/vscode": "^1.55.0",
-		"path-parse": "^1.0.7",
-		"ts-loader": "^9.2.6",
-		"typescript": "^4.4.4",
-		"vscode-test": "^1.6.1",
-		"webpack": "^5.64.0",
-		"webpack-cli": "^4.9.1"
-	}
+  "name": "kapitan",
+  "publisher": "kapicorp",
+  "displayName": "Kapitan Langugage Server",
+  "description": "A Language Server for github.com/kapicorp/kapitan",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kapicorp/kapitan-vscode-extension"
+  },
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:yaml"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "languages": [
+      {
+        "id": "yaml",
+        "aliases": [
+          "YAML",
+          "yaml"
+        ],
+        "extensions": [
+          ".yaml",
+          ".yml"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile && echo copying server && cp -Rf ../server/. out/server && cp ../*.md ./ && cp ../LICENSE ./LICENSE",
+    "compile": "tsc -b",
+    "watch": "tsc -b -w",
+    "webpack": "webpack --mode development",
+    "vscepack": "vsce package",
+    "postinstall": "echo post-install"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.7",
+    "@types/uuid": "^10.0.0",
+    "@types/vscode": "^1.94.0",
+    "path-parse": "^1.0.7",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "vscode-test": "^1.6.1",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
+  }
 }

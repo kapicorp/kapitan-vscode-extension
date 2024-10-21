@@ -1,0 +1,17 @@
+{
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "ms-python.pylance"
+        ]
+      }
+    },
+    "postCreateCommand": "bash --login -c .devcontainer/post-create.sh",
+    "mounts": [
+      "source=devcontainer-persistence,target=/devcontainer-persistence,type=volume"
+    ],
+  }

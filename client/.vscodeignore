@@ -1,10 +1,5 @@
-.vscode/**
-out/test/**
-.gitignore
-**/tsconfig.json
-**/tslint.json
+# out/test/**
 **/*.map
 node_modules/
 *.log
 **/*.pyc
-src/*

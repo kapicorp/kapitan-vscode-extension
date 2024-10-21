@@ -27,27 +27,17 @@ import {
     LanguageClientOptions,
     ServerOptions,
 } from "vscode-languageclient/node";
-import {
-    activateYamlExtension,
-    addSchemasToYamlConfig
-} from './yamlHelper';
-import { BlueprintsProvider } from './blueprintsExplorer';
-import { SandboxStartPanel } from './startSandboxWebview';
-import { ProfilesProvider } from "./profilesExplorer";
-import { torqueLogin } from  "./torqueLogin"
-import { SandboxesProvider } from "./sandboxesExplorer";
-import { SandboxDetailsPanel } from "./sandboxDetails";
-import { Profile, Sandbox } from "./models";
 
 let client: LanguageClient;
+
 
 function getClientOptions(): LanguageClientOptions {
     return {
         // Register the server for plain text documents
         documentSelector: [
-            { scheme: "file", language: "yaml" },            
+            { scheme: "file", language: "yaml" },
         ],
-        outputChannelName: "Torque",
+        outputChannelName: "Kapitan Language Server",
         synchronize: {
             // Notify the server about file changes to '.yaml files contain in the workspace
             fileEvents: workspace.createFileSystemWatcher("**/*.yaml"),
@@ -88,11 +78,6 @@ function startLangServer(
     return new LanguageClient(command, serverOptions, getClientOptions());
 }
 
-async function activateYamlFeatures(context: ExtensionContext) {
-    await addSchemasToYamlConfig(context.extensionPath);
-    await activateYamlExtension();
-}
-
 export async function activate(context: ExtensionContext) {
     if (context.extensionMode === ExtensionMode.Development) {
         // Development - Run the server manually
@@ -100,63 +85,12 @@ export async function activate(context: ExtensionContext) {
     } else {
         // Production - Client is going to run the server (for use within `.vsix` package)
         const cwd = path.join(__dirname, "..", "out");
-        
+
         const python = await installLSWithProgress(context);
         client = startLangServer(python, ["-m", "server"], cwd);
     }
 
     context.subscriptions.push(client.start());
-
-	// PROFILES
-    const profilesProvider = new ProfilesProvider();
-    window.registerTreeDataProvider('profilesView', profilesProvider);
-    commands.registerCommand('profilesView.refreshEntry', () => profilesProvider.refresh());
-    commands.registerCommand('profilesView.setAsDefaultEntry', (node: Profile) => profilesProvider.setAsDefault(node));
-    commands.registerCommand('profilesView.removeEntry', (node: Profile) => profilesProvider.removeEntry(node));
-
-    let loginPanel: WebviewPanel | undefined
-    context.subscriptions.push(
-        commands.registerCommand('profilesView.addProfile', () => {
-            if (loginPanel) {
-                loginPanel.reveal(loginPanel.viewColumn || ViewColumn.Active)
-            } else {
-                loginPanel = torqueLogin(context.extensionUri, profilesProvider)
-                loginPanel.onDidDispose(
-                    () => {
-                        loginPanel = undefined
-                    },
-                    undefined,
-                    context.subscriptions
-                )
-            }
-        })
-    )
-
-    // BLUEPRINTS
-	const blueprintsProvider = new BlueprintsProvider();
-	window.registerTreeDataProvider('blueprintsExplorerView', blueprintsProvider);
-	commands.registerCommand('blueprintsExplorerView.refreshEntry', () => blueprintsProvider.refresh());
-    
-    // SANDBOXES
-    const sandboxesProvider = new SandboxesProvider();
-    window.registerTreeDataProvider('environmentsExplorerView', sandboxesProvider);
-	commands.registerCommand('environmentsExplorerView.refreshEntry', () => sandboxesProvider.refresh());
-    commands.registerCommand('environmentsExplorerView.getEnvDetails', (sandbox: any) => sandboxesProvider.getEnvDetails(sandbox));
-    commands.registerCommand('environmentsExplorerView.endEnvironment', (sandbox: Sandbox) => sandboxesProvider.endEnvironment(sandbox));
-
-
-    context.subscriptions.push(
-		commands.registerCommand('extension.openReserveForm', (bpname:string, inputs:Array<string>, branch: string, repoName: string, is_sample: boolean) => {
-            SandboxStartPanel.createOrShow(context.extensionUri, bpname, inputs, branch, repoName, is_sample);
-        })
-	);
-
-    context.subscriptions.push(
-        commands.registerCommand('extension.showSandboxDetails', (sandbox: any) => {
-            SandboxDetailsPanel.createOrShow(context.extensionUri, sandbox['id'], sandbox['name'], sandbox['blueprint_name'])
-        })
-    )
-
 }
 
 export function deactivate(): Thenable<void> {

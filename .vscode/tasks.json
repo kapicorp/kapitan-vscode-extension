@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "webpack",
+            "path": "client/",
+            "problemMatcher": [],
+            "label": "npm: webpack",
+            "detail": "webpack --mode development"
+        }
+    ]
+}

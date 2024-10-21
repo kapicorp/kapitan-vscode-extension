@@ -1,0 +1,33 @@
+repos:
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-format
+        name: ruff-format
+        description: "Runs ruff format"
+        entry: ruff format --force-exclude
+        language: system
+        require_serial: true
+        types_or: [python, pyi]
+
+  - repo: local
+    hooks:
+      - id: ruff-lint
+        name: ruff-lint
+        description: "Runs ruff check"
+        entry: ruff check --fix --force-exclude
+        language: system
+        require_serial: true
+        types_or: [python, pyi]
+
+  - repo: local
+    hooks:
+      - id: pyright
+        name: pyright
+        description: "Type checking via Pyright"
+        entry: python -m pyright
+        language: system
+        "types_or": [python, pyi]
+        require_serial: true
+        additional_dependencies: []
+        minimum_pre_commit_version: "2.9.2"

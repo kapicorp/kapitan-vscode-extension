@@ -1,0 +1,9 @@
+node_modules/
+*.log
+**/out/*
+**/__pycache__/
+.venv
+*.vsix
+client/README.md
+client/LICENSE
+client/CHANGELOG.md
