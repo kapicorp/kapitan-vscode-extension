@@ -5,7 +5,7 @@ set -eu
 sudo chown -R 1000:1000 /devcontainer-persistence
 touch /devcontainer-persistence/.bash_history
 if [ ! -e ~/.bash_history ]; then
-    ln -s /devcontainer-persistence/.bash_history ~/.bash_history
+  ln -s /devcontainer-persistence/.bash_history ~/.bash_history
 fi
 
 python3 -m venv .venv
