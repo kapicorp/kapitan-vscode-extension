@@ -26,8 +26,5 @@ code --force --install-extension PATH_TO_PACKAGES_EXTENSION.vsix
 ```
 Make sure to reload the VSCode window after installation.
 
-
 ### Copyright Note
-The `client` folder is essentially a modified copy of the `client` folder from https://github.com/QualiTorque/torque-vs-code-extensions
-
-The initial folder structure vscode setup and CI were also heavily influenced from the same repo.
+The typescript code is a modified copy of the `client` folder from https://github.com/QualiTorque/torque-vs-code-extensions which was licensed under Apache 2.0 License at the time the code was copied. Also, the initial folder structure, vscode setup, and CI were also heavily influenced from the same repo.

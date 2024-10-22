@@ -1,3 +1,21 @@
+[project]
+version = "0.0.0"
+name = "venv"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pygls",
+    "pyyaml"
+]
+
+[tool.uv]
+dev-dependencies = [
+  "pre-commit",
+  "ruff",
+  "pyright",
+  "pytest"
+]
+
 [tool.pyright]
 include = ["server"]
 useLibraryCodeForTypes = true

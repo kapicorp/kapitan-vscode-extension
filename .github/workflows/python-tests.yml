@@ -3,18 +3,11 @@ name: Python Tests
 on: [push, pull_request]
 
 jobs:
-  pre-commit:
+  python-tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
-    - name: Set up Python virtual environment
-      run: |
-        python -m venv .venv
-        source .venv/bin/activate
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt -r requirements-dev.txt
-    - name: Run tests
-      run: |
-        source .venv/bin/activate
-        pytest tests
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv python install
+      - run: uv sync --all-extras --locked --dev
+      - run: uv run pytest tests

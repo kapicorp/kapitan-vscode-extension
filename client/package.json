@@ -36,7 +36,7 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile && echo copying server && cp -Rf ../server/. out/server && cp ../*.md ./ && cp ../LICENSE ./LICENSE",
+    "vscode:prepublish": "./prepublish.sh",
     "compile": "tsc -b",
     "watch": "tsc -b -w",
     "webpack": "webpack --mode development",

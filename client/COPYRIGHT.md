@@ -1,1 +1,0 @@
-The code in this folder is essentially a modified copy of the `client` folder from https://github.com/QualiTorque/torque-vs-code-extensions, which was licensed under Apache 2.0 License at the time the code was copied.

@@ -15,4 +15,5 @@
     "mounts": [
       "source=devcontainer-persistence,target=/devcontainer-persistence,type=volume"
     ],
+    "remoteUser": "user",
   }
