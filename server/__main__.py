@@ -3,7 +3,7 @@ import logging
 
 from .server import server
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 def add_arguments(parser):

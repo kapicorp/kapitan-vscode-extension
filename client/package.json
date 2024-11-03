@@ -21,6 +21,28 @@
   ],
   "main": "./out/extension",
   "contributes": {
+    "configuration": {
+      "properties": {
+        "kapitan.inventoryPath": {
+          "type": "string",
+          "default": "inventory",
+          "markdownDescription": "Inventory path, relative to the workspace root"
+        },
+        "kapitan.YAMLExtension": {
+          "default": "yml",
+          "markdownDescription": "The extesion of classes and targets in the inventory",
+          "enum": [
+            "yml",
+            "yaml"
+          ]
+        },
+        "kapitan.showDebugLogs": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Whether to show debug logs or not"
+        }
+      }
+    },
     "languages": [
       {
         "id": "yaml",
@@ -31,7 +53,8 @@
         "extensions": [
           ".yaml",
           ".yml"
-        ]
+        ],
+        "configuration": "./language-configuration.json"
       }
     ]
   },

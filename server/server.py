@@ -4,6 +4,8 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 from lsprotocol.types import (
+    ConfigurationItem,
+    ConfigurationParams,
     InitializedParams,
     Location,
     Position,
@@ -16,13 +18,26 @@ from pygls.workspace.text_document import TextDocument
 
 server = LanguageServer(name="kapitan-language-server", version="0.0.1")
 INVENTORY_PATH = Path()
+YAML_EXTENSION = ""
+
+
+def process_settings(workspace_path: Path, settings: dict):
+    global INVENTORY_PATH
+    global YAML_EXTENSION
+    INVENTORY_PATH = workspace_path / settings["inventoryPath"]
+    if settings["showDebugLogs"]:
+        logging.getLogger().setLevel(logging.DEBUG)
+    YAML_EXTENSION = settings["YAMLExtension"]
 
 
 @server.feature("initialized")
 def on_initialized(ls: LanguageServer, params: InitializedParams):
-    global INVENTORY_PATH
-    path = Path(unquote(urlparse(ls.workspace.root_uri).path))
-    INVENTORY_PATH = path / "inventory"
+    workspace_path = Path(unquote(urlparse(ls.workspace.root_uri).path))
+    requests = ConfigurationParams(items=[ConfigurationItem(section="kapitan")])
+    server.get_configuration(
+        requests,
+        lambda list_of_settings: process_settings(workspace_path, list_of_settings[0]),
+    )
 
 
 @server.feature("initialize")
@@ -70,9 +85,9 @@ def resolve_class_file(class_name: str, document_dir: Path) -> Path | None:
     relpath = class_name.replace(".", "/")
 
     if (base_path / relpath).is_dir():
-        file = base_path / relpath / "init.yml"
+        file = base_path / relpath / f"init.{YAML_EXTENSION}"
     else:
-        file = base_path / f"{relpath}.yml"
+        file = base_path / f"{relpath}.{YAML_EXTENSION}"
     logging.debug(f"Potential class definition file: {file}")
     if file.is_file():
         return file
