@@ -3,7 +3,8 @@ RUN apt-get -q update && \
     apt-get install -y --no-install-recommends \
     sudo \
     vim \
-    npm && \
+    npm \
+    python3-venv && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN npm install -g @vscode/vsce
 
