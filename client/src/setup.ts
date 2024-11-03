@@ -20,7 +20,12 @@ async function createVirtualEnvironment(python: string, name: string, cwd: strin
       python = '"' + python + '"'
     }
     const createVenvCmd = `${python} -m venv ${name}`
-    await execAsync(createVenvCmd, { cwd })
+    try {
+      await execAsync(createVenvCmd, { cwd })
+    } catch (error) {
+      console.error(`Error while creating venv:\n${error.message}\n`);
+      throw error;
+    }
   }
   return path
 }
