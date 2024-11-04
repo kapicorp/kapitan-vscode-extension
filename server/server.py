@@ -16,7 +16,7 @@ from lsprotocol.types import (
 from pygls.server import LanguageServer
 from pygls.workspace.text_document import TextDocument
 
-server = LanguageServer(name="kapitan-language-server", version="0.0.2")
+server = LanguageServer(name="kapitan-language-server", version="0.0.3")
 INVENTORY_PATH = Path()
 YAML_EXTENSION = ""
 
