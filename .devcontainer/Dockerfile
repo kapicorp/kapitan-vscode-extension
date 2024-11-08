@@ -4,8 +4,12 @@ RUN apt-get -q update && \
     sudo \
     vim \
     npm \
+    locales \
     python3-venv && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+# Remove the above the installation of locales package when
+# https://github.com/microsoft/vscode/issues/189924 gets resolved 
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen; locale-gen
 RUN npm install -g @vscode/vsce
 
 # Setup non-root user
