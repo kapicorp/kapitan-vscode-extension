@@ -1,7 +1,7 @@
 ### Building and publishing via Github Actions
 The extension is built as an artifact of Github Actions on every commit to `main`.
 It's published on the VSCode marketplace at every tagged commit.
-The version of the extension is hardcoded on `client/package.json` and `server/server.py`.
+The version of the extension is hardcoded on `client/package.json`, `client/package-lock.json` and `server/server.py`.
 ### Local development:
 Use the devcontainer included or a GitHub Codespace and 
 * Compile the `client` by running `npm --prefix client run compile`.
